@@ -1,6 +1,6 @@
 from django.db import models
 from datetime import date
-
+from django.urls import reverse
 class Category(models.Model):
     name = models.CharField('Category', max_length=150)
     description = models.TextField('Description')
@@ -8,6 +8,10 @@ class Category(models.Model):
 
     def __str__(self):
         return self.name
+
+    class Meta:
+        verbose_name = 'Category'
+        verbose_name_plural = 'Categories'
 
 
 class Actor(models.Model):
@@ -19,6 +23,10 @@ class Actor(models.Model):
     def __str__(self):
         return self.name
 
+    class Meta:
+        verbose_name = 'Actor'
+        verbose_name_plural = 'Actors'
+
 
 class Genre(models.Model):
     name = models.CharField('Name', max_length=100)
@@ -27,6 +35,10 @@ class Genre(models.Model):
 
     def __str__(self):
         return self.name
+
+    class Meta:
+        verbose_name = 'Genre'
+        verbose_name_plural = 'Genres'
 
 
 class Movie(models.Model):
@@ -50,6 +62,13 @@ class Movie(models.Model):
     def __str__(self):
         return self.title
 
+    def get_absolute_url(self):
+        return reverse('movie_detail', kwargs={'slug': self.url})
+
+    class Meta:
+        verbose_name = 'Movie'
+        verbose_name_plural = 'Movies'
+
 
 class MovieShots(models.Model):
     title = models.CharField('Name', max_length=100)
@@ -60,12 +79,20 @@ class MovieShots(models.Model):
     def __str__(self):
         return self.title
 
+    class Meta:
+        verbose_name = 'Movie shot'
+        verbose_name_plural = 'Movie shots'
+
 
 class RatingStar(models.Model):
     value = models.SmallIntegerField('Value', default=0)
 
     def __str__(self):
         return self.value
+
+    class Meta:
+        verbose_name = 'Rating star'
+        verbose_name_plural = 'Rating stars'
 
 
 class Rating(models.Model):
@@ -75,6 +102,10 @@ class Rating(models.Model):
 
     def __str__(self):
         return f'(self.star) - (self.movie)'
+
+    class Meta:
+        verbose_name = 'Rating'
+        verbose_name_plural = 'Ratings'
 
 
 class Reviews(models.Model):
@@ -86,3 +117,7 @@ class Reviews(models.Model):
 
     def __str__(self):
         return f'(self.name) - (self.movie)'
+
+    class Meta:
+        verbose_name = 'Review'
+        verbose_name_plural = 'Reviews'
